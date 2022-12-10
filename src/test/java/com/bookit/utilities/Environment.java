@@ -24,7 +24,9 @@ public class Environment {
     //This is layer 1. Layer 2 is to load another .properties file with the dynamic path below to get the details of the chosen environment
     //The class Environment is like ConfigurationReader, it is dynamically managing to read another properties file
     static {
-
+            //If the environment is not null, whatever I put in the terminal (System.getProperty("environment") will be the env
+            //It is gonna get whatever I pass in the terminal, but if the env is null, it will get it from ConfigReader
+            //Basically, if I am using env from the command line, get that one. If not, get from ConfigReader
             String environment = System.getProperty("environment") != null ? environment = System.getProperty("environment") : ConfigurationReader.get("environment");
             //String environment = ConfigurationReader.get("environment");
 
