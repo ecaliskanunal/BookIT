@@ -24,7 +24,7 @@ Feature: User Verification
     Then the information about current user from api and database should match
 
 
-  @db @ui
+  @db @ui @wip
   Scenario: three point verification (UI,API,Database)
     Given user logs in using "blyst6@si.edu" "barbabaslyst"
     #Given user logs in using "wcanadinea@ihg.com" "waverleycanadine"
