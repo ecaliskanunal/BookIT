@@ -8,20 +8,22 @@ import static io.restassured.RestAssured.given;
 public class BookItApiUtil {
 
 
-    public static String generateToken(String email,String password){
-        Response response = given().
-                accept(ContentType.JSON)
+    public static String generateToken(String email, String password) {
+        //Sent the request and get the token
+        Response response = given()
+                .accept(ContentType.XML)
                 .queryParam("email", email)
                 .queryParam("password", password)
                 .when()
                 .get(Environment.BASE_URL + "/sign")
                 .then().log().all().extract().response();
 
+        //Save the token
         String token = response.path("accessToken");
 
-        String finalToken ="Bearer "+token;
+        String finalToken = "Bearer " + token;
 
-        return  finalToken;
+        return finalToken;
     }
 
 
@@ -29,10 +31,10 @@ public class BookItApiUtil {
     //returns --> token
 
 
-    public static void deleteStudent(String studentEmail,String studentPassword){
+    public static void deleteStudent(String studentEmail, String studentPassword) {
 
         //1.send a get request to get token with student information
-        String studentToken = BookItApiUtil.generateToken(studentEmail,studentPassword);
+        String studentToken = BookItApiUtil.generateToken(studentEmail, studentPassword);
 
         //2.send a get request to /api/users/me endpoint and get the id number
         int idToDelete = given().accept(ContentType.JSON)
@@ -42,20 +44,23 @@ public class BookItApiUtil {
                 .then().statusCode(200).extract().jsonPath().getInt("id");
 
         //3.send a delete request as a teacher to /api/students/{id} endpoint to delete the student
-        String teacherToken =BookItApiUtil.generateToken(Environment.TEACHER_EMAIL,Environment.TEACHER_PASSWORD);
+        String teacherToken = BookItApiUtil.generateToken(Environment.TEACHER_EMAIL, Environment.TEACHER_PASSWORD);
+
+        //I am passing it manually
+        teacherToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzEiLCJhdWQiOiJ0ZWFjaGVyIn0.AKGnMkwrNdDO-1yDmV6usbK8eTennqG7RZEPL5LO8cY";
         given().
-                pathParam("id",idToDelete)
+                pathParam("id", idToDelete)
                 .and().
-                header("Authorization",teacherToken)
+                header("Authorization", teacherToken)
                 .when()
-                .delete(Environment.BASE_URL+"/api/students/{id}")
+                .delete(Environment.BASE_URL + "/api/students/{id}")
                 .then()
                 .statusCode(204);
     }
 
     //teacher , student-member,student-leader
     //it will take user info from conf.properties
-    public static String getTokenByRole(String role){
+    public static String getTokenByRole(String role) {
         //switch,if make sure you get correct user info
         //send request/get token/ return token
         String email, pass;
@@ -83,16 +88,15 @@ public class BookItApiUtil {
         String accessToken =
                 given()
                         .accept(ContentType.JSON)
-                        .queryParams("email",email,"password",pass)
+                        .queryParams("email", email, "password", pass)
                         .when()
-                        .get(Environment.BASE_URL+"/sign")
+                        .get(Environment.BASE_URL + "/sign")
                         .then()
                         .statusCode(200)
                         .extract().jsonPath().getString("accessToken");
 
-        System.out.println(role+":"+accessToken);
+        System.out.println(role + ":" + accessToken);
         return "Bearer " + accessToken;
-
 
 
     }

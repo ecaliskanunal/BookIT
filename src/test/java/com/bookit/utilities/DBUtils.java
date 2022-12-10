@@ -18,10 +18,10 @@ public class DBUtils {
      */
     public static void createConnection() {
         String url = Environment.DB_URL;
-        String username = Environment.DB_USERNAME;
+        String user = Environment.DB_USERNAME;
         String password = Environment.DB_PASSWORD;
         try {
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

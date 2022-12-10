@@ -20,9 +20,6 @@ public class MyInfoStepDefs {
 	    signInPage.password.sendKeys(password);
 		BrowserUtils.waitFor(1);
 	    signInPage.signInButton.click();
-
-
-	    	    
 	}
 
 	@When("user is on the my self page")
