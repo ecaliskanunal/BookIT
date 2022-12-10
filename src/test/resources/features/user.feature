@@ -17,7 +17,7 @@ Feature: User Verification
       | sbirdbj@fc2.com | asenorval    |
       | blyst6@si.edu   | barbabaslyst |
 
-#  @wip
+#@wip
   Scenario: verify information about logged user from api and database
     Given I logged Bookit api using "sbirdbj@fc2.com" and "asenorval"
     When I get the current user information from api
@@ -27,6 +27,7 @@ Feature: User Verification
   @db @ui
   Scenario: three point verification (UI,API,Database)
     Given user logs in using "blyst6@si.edu" "barbabaslyst"
+    #Given user logs in using "wcanadinea@ihg.com" "waverleycanadine"
     And  user is on the my self page
     Given I logged Bookit api using "blyst6@si.edu" and "barbabaslyst"
     When I get the current user information from api

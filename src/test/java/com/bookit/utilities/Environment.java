@@ -20,15 +20,21 @@ public class Environment {
 
     public static Properties properties;
 
-
+    //Where to get the env? From configuration.properties with ConfigurationReader
+    //This is layer 1. Layer 2 is to load another .properties file with the dynamic path below to get the details of the chosen environment
+    //The class Environment is like ConfigurationReader, it is dynamically managing to read another properties file
     static {
 
             String environment = System.getProperty("environment") != null ? environment = System.getProperty("environment") : ConfigurationReader.get("environment");
             //String environment = ConfigurationReader.get("environment");
 
             try {
-
+                //Create a dynamic path to reach the Environments folder under Resources directory
                 String path = System.getProperty("user.dir") + "/src/test/resources/Environments/" + environment + ".properties";
+                // Yoy get your project locator with this, then add where this file is. You get full path with it.
+                // System.getProperty("user.dir") generates location of your folder
+                ///src/test/resources/Environments/ - project path
+                // This will give us the FULL path
                 // C:\Users\Zulpikar\IdeaProjects\EU9-BookIT\src\test\resources\Environments\qa1.properties
 
                 FileInputStream input = new FileInputStream(path);
@@ -39,6 +45,7 @@ public class Environment {
                 e.printStackTrace();
             }
 
+            //not using ConfigurationReader anymore as we get the property and  put it inside a constant variable
             URL = properties.getProperty("url");
             BASE_URL = properties.getProperty("base_url");
             DB_USERNAME = properties.getProperty("dbUsername");
